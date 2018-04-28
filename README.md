@@ -95,11 +95,15 @@ Number  Start   End     Size    File system  Name     Flags
 ```
 ### XFS
 #### xfsprogs > 3.1.0 should auto-detect the underlying device and align/optimize appropriately.
-#### Test to make sure mkfs.xfs will create an optimized filesystem.
+
 ```
   [root@filer01 ~]# yum list installed | grep xfsprogs
 xfsprogs.x86_64                   4.5.0-12.el7               @anaconda        
 ```
+#### Test to make sure mkfs.xfs will create an optimized filesystem.
+#### I'm really just seeing if these all generate the same parameters.
+
+##### LVM DEVICE
 ```
 [root@filer01 ~]# mkfs.xfs -N /dev/STORAGE/0 
 meta-data=/dev/STORAGE/0         isize=512    agcount=32, agsize=183137024 blks
@@ -112,6 +116,8 @@ log      =internal log           bsize=4096   blocks=521728, version=2
          =                       sectsz=4096  sunit=1 blks, lazy-count=1
 realtime =none                   extsz=4096   blocks=0, rtextents=0
 ```
+
+##### SW RAID DEVICE
 ```
 [root@filer01 ~]# vgchange -an STORAGE; mkfs.xfs -f -N /dev/md0p1 
 meta-data=/dev/md0p1             isize=512    agcount=32, agsize=183138304 blks
@@ -124,6 +130,8 @@ log      =internal log           bsize=4096   blocks=521728, version=2
          =                       sectsz=4096  sunit=1 blks, lazy-count=1
 realtime =none                   extsz=4096   blocks=0, rtextents=0
 ```
+
+##### SW RAID DEVICE WITH FORCED STRIPE/CHUNK/WIDTH
 ```
 [root@filer01 ~]# mkfs.xfs -N -f -d su=1024k,sw=3 /dev/md0p1
 meta-data=/dev/md0p1             isize=512    agcount=32, agsize=183138304 blks
@@ -135,17 +143,7 @@ naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
 log      =internal log           bsize=4096   blocks=521728, version=2
          =                       sectsz=4096  sunit=1 blks, lazy-count=1
 realtime =none                   extsz=4096   blocks=0, rtextents=0
-[root@filer01 ~]# 
-[root@filer01 ~]# 
-[root@filer01 ~]# 
-[root@filer01 ~]# mkfs.xfs -N /dev/md0p1 -f
-meta-data=/dev/md0p1             isize=512    agcount=32, agsize=183138304 blks
-         =                       sectsz=4096  attr=2, projid32bit=1
-         =                       crc=1        finobt=0, sparse=0
-data     =                       bsize=4096   blocks=5860419072, imaxpct=5
-         =                       sunit=256    swidth=768 blks
-naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
-log      =internal log           bsize=4096   blocks=521728, version=2
-         =                       sectsz=4096  sunit=1 blks, lazy-count=1
-realtime =none                   extsz=4096   blocks=0, rtextents=0
 ```
+#### Re-activate the Volume Group and create the filesystem.
+```vgchange -ay STORAGE0```
+```mkfs.xfs -L STORAGE0 /dev/STORAGE/0```
