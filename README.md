@@ -4,6 +4,8 @@
 - 4x 8TB HDD's in Software RAID-5 (md0p1)
 - 1x 160GB INTEL SSD (sda3)
 
+``` man lvmcache ```
+
 ### RAID
 #### Create the RAID block device
 ```mdadm --create md0 --level=5 --raid-devices=4 --chunk=1024 /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 ```
