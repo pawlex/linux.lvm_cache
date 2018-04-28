@@ -155,3 +155,7 @@ realtime =none                   extsz=4096   blocks=0, rtextents=0
 ```
  LABEL=STORAGE0  /media/STORAGE0 xfs defaults,nobarrier,noatime,nodiratime,discard,noexec 0 0
 ```
+
+## UNDO THIS MESS!
+### Remove the cachepool.  This will release and un-bind the meta and cache LV's
+``` lvconvert --uncache STORAGE/0```
