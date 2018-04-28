@@ -145,6 +145,6 @@ log      =internal log           bsize=4096   blocks=521728, version=2
 realtime =none                   extsz=4096   blocks=0, rtextents=0
 ```
 #### Re-activate the Volume Group and create the filesystem.
-```vgchange -ay STORAGE ```\
+```vgchange -ay STORAGE ```
 
 ```mkfs.xfs -L STORAGE0 /dev/STORAGE/0```
