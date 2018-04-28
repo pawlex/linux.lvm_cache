@@ -4,10 +4,9 @@
 - 4x 8TB HDD's in Software RAID-5 (md0p1)
 - 1x 160GB INTEL SSD (sda3)
 
-## RAID
-
+#### RAID
+##### Create the RAID block device
 ```mdadm --create md0 --level=5 --raid-devices=4 --chunk=1024 /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 ```
-
 ```
 [root@filer01 ~]# cat /proc/mdstat 
 Personalities : [raid6] [raid5] [raid4] 
@@ -19,16 +18,14 @@ md0 : active raid5 sde1[4] sdd1[2] sdc1[1] sdb1[0]
 unused devices: <none>
 ```
 
-
+##### Create mdadm.conf file.  Ensures your MD device is always md0 upon boot.
 ```mkdir -p /etc/mdadm; mdadm --examine --scan >> /etc/mdadm/mdadm.conf ```
-
 ```
 ARRAY /dev/md/md0  metadata=1.2 UUID=d481b838:b49ebcb3:570b9a28:03a7350e name=vz03.pdxhosting.net:md0 
 ```
 
-
+##### Create disklabel and partition on MD device.  *** ALWAYS PARTITION YOUR MD DEVICE ***
 ```parted /dev/md0 mklabel gpt; parted -a optimal /dev/md0 mkpart primary 0% 100% ```
-
 ```
 [root@filer01 ~]# parted /dev/md0 print
 Model: Linux Software RAID Array (md)
