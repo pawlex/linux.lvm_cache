@@ -21,6 +21,7 @@ unused devices: <none>
 #### Create mdadm.conf file.  Ensures your MD device is always md0 upon boot.
 ```mkdir -p /etc/mdadm; mdadm --examine --scan >> /etc/mdadm/mdadm.conf ```
 ```
+[root@filer01 ~]# cat /etc/mdadm/mdadm.conf
 ARRAY /dev/md/md0  metadata=1.2 UUID=d481b838:b49ebcb3:570b9a28:03a7350e name=vz03.pdxhosting.net:md0 
 ```
 
