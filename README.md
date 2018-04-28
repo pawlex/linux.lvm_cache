@@ -21,10 +21,14 @@ unused devices: <none>
 
 
 ```mkdir -p /etc/mdadm; mdadm --examine --scan >> /etc/mdadm/mdadm.conf ```
-```ARRAY /dev/md/md0  metadata=1.2 UUID=d481b838:b49ebcb3:570b9a28:03a7350e name=vz03.pdxhosting.net:md0 ```
+
+```
+ARRAY /dev/md/md0  metadata=1.2 UUID=d481b838:b49ebcb3:570b9a28:03a7350e name=vz03.pdxhosting.net:md0 
+```
 
 
 ```parted /dev/md0 mklabel gpt; parted -a optimal /dev/md0 mkpart primary 0% 100% ```
+
 ```
 [root@filer01 ~]# parted /dev/md0 print
 Model: Linux Software RAID Array (md)
