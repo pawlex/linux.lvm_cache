@@ -6,7 +6,7 @@
 
 ## RAID
 
-``` mdadm --create md0 --level=5 --raid-devices=4 --chunk=1024 /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 ```
+```mdadm --create md0 --level=5 --raid-devices=4 --chunk=1024 /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1 ```
 
 ```
 [root@filer01 ~]# cat /proc/mdstat 
@@ -20,12 +20,13 @@ unused devices: <none>
 ```
 
 
-``` mkdir -p /etc/mdadm; mdadm --examine --scan >> /etc/mdadm/mdadm.conf ```
-``` ARRAY /dev/md/md0  metadata=1.2 UUID=d481b838:b49ebcb3:570b9a28:03a7350e name=vz03.pdxhosting.net:md0 ```
+```mkdir -p /etc/mdadm; mdadm --examine --scan >> /etc/mdadm/mdadm.conf ```
+```ARRAY /dev/md/md0  metadata=1.2 UUID=d481b838:b49ebcb3:570b9a28:03a7350e name=vz03.pdxhosting.net:md0 ```
 
 
-``` parted /dev/md0 mklabel gpt; parted -a optimal /dev/md0 mkpart primary 0% 100% ```
-```[root@filer01 ~]# parted /dev/md0 print
+```parted /dev/md0 mklabel gpt; parted -a optimal /dev/md0 mkpart primary 0% 100% ```
+```
+[root@filer01 ~]# parted /dev/md0 print
 Model: Linux Software RAID Array (md)
 Disk /dev/md0: 24.0TB
 Sector size (logical/physical): 512B/4096B
@@ -33,4 +34,5 @@ Partition Table: gpt
 Disk Flags: 
 
 Number  Start   End     Size    File system  Name     Flags
- 1      3146kB  24.0TB  24.0TB               primary ```
+ 1      3146kB  24.0TB  24.0TB               primary
+ ```
