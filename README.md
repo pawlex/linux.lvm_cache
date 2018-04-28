@@ -148,3 +148,8 @@ realtime =none                   extsz=4096   blocks=0, rtextents=0
 ```vgchange -ay STORAGE ```
 
 ```mkfs.xfs -L STORAGE0 /dev/STORAGE/0```
+
+#### Create fstab entry
+```
+ LABEL=STORAGE0  /media/STORAGE0 xfs defaults,nobarrier,noatime,nodiratime,discard,noexec 0 0
+```
